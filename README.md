@@ -1,2 +1,2 @@
 # Recon_IT
-Private recon script 
+This is my private recon script for subdomain gathering and automation
