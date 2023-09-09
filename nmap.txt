@@ -1,0 +1,8 @@
+
+PORT   STATE SERVICE VERSION
+80/tcp open  http    nginx
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: 404 Not Found
+|_http-server-header: Apache/2
+
