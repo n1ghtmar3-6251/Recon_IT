@@ -1,0 +1,34 @@
+id: adminlte-dashboard
+
+info:
+  name: adminlte-dashboard
+  author: n1ghtmar3
+  severity: critical
+  description: Unauthenticated access to admin panel and getting full access
+
+requests:
+  - raw:
+      - |+
+        GET /adminlte/ HTTP/2
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: en-US,en;q=0.5
+        Accept-Encoding: gzip, deflate
+        Upgrade-Insecure-Requests: 1
+        Sec-Fetch-Dest: document
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-Site: cross-site
+        Pragma: no-cache
+        Cache-Control: no-cache
+        Te: trailers
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - <a href="http://adminlte.io">
+      - type: status
+        status:
+          - 200
