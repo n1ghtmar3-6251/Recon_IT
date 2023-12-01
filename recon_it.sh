@@ -11,7 +11,7 @@ domain_enum(){
     for domain in $(cat $host);
     do
         mkdir -p Recon/$domain Recon/$domain/sources
-        subfinder -d $domain -o Recon/$domain/sources/subfinder.txt
+        subfinder -d $domain -all -o Recon/$domain/sources/subfinder.txt
         assetfinder -subs-only $domain | tee Recon/$domain/sources/domain.txt
         amass enum -passive -d $domain -o  Recon/$domain/sources/passive.txt
         findomain -t $domain -q | tee -a Recon/$domain/sources/findomain.txt
