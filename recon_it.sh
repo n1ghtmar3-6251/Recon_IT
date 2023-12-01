@@ -63,8 +63,8 @@ record(){
 portscan(){
 	for domain in $(cat $host);
 	do
-		naabu -list Recon/$domain/record_sub.txt -p 1-65535 -silent | tee -a Recon/$domain/ports.txt
-        ip_addresses=(); concatenated_ports=(); while IFS= read -r line; do IFS=':' read -r ip ports <<< "$line"; port_array=($ports); concatenated_port=$(IFS=','; echo "${port_array[*]}"); ip_addresses+=("$ip"); concatenated_ports+=("$concatenated_port"); done < Recon/$domain/ports.txt; for ((i=0; i<${#ip_addresses[@]}; i++)); do echo "IP Address: ${ip_addresses[i]}" | tee -a Recon/$domain/nmap.txt; nmap -sC -sV ${ip_addresses[i]} -p${concatenated_ports[i]}|grep -v "Starting Nmap"|grep -v "Host is"|grep -v "rDNS record"|grep -v "Nmap scan report for"|grep -v "Nmap done"|grep -v "Service detection performed." | tee -a Recon/$domain/nmap.txt; done
+		rustscan -a Recon/$domain/record_sub.txt -r 1-65535 --ulimit 10000|tee -a Recon/$domain/rust.txt
+  		cat Recon/$domain/rust.txt|grep Open|sed 's/Open //'|tee -a Recon/$domain/ports.txt
 	done
 }
 
