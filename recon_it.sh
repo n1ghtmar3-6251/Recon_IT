@@ -15,6 +15,7 @@ domain_enum(){
         assetfinder -subs-only $domain | tee Recon/$domain/sources/domain.txt
         amass enum -passive -d $domain -o  Recon/$domain/sources/passive.txt
         findomain -t $domain -q | tee -a Recon/$domain/sources/findomain.txt
+	github-subdomains -d $domain -t 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 -o Recon/$domain/sources/github.txt
         cat Recon/$domain/sources/*.txt | tee -a Recon/$domain/sources/tmp.txt
         cat Recon/$domain/sources/tmp.txt | sort -u >> Recon/$domain/sources/all.txt
         rm Recon/$domain/sources/tmp.txt
@@ -22,6 +23,7 @@ domain_enum(){
         rm Recon/$domain/sources/passive.txt
         rm Recon/$domain/sources/findomain.txt
         rm Recon/$domain/sources/domain.txt
+	rm Recon/$domain/sources/github.txt
     done
 }
 
