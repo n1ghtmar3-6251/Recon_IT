@@ -55,7 +55,7 @@ sorting1(){
     cat Recon/$domain/aliv.txt | nuclei -t nuclei_templates/ --silent -o Recon/$domain/0day.txt
 }
 
-nuclei_fast{
+nuclei_fast(){
     cat Recon/$domain/aliv.txt | nuclei -t ~/nuclei-templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei1.txt
     cat Recon/$domain/aliv.txt | nuclei -t nuclei_templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei2.txt
     cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
