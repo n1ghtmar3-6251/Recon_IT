@@ -13,7 +13,7 @@ domain_enum(){
         mkdir -p Recon/$domain Recon/$domain/sources
         subfinder -d $domain -all -o Recon/$domain/sources/subfinder.txt
         assetfinder -subs-only $domain | tee Recon/$domain/sources/domain.txt
-        amass enum -passive -d $domain -o  Recon/$domain/sources/passive.txt
+        amass enum -passive -d $domain | cut -d " " -f 1 | grep -i  $domain | sort -u|grep -v "The enumeration has finished"|tee -a Recon/$domain/sources/passive.txt
         findomain -t $domain -q | tee -a Recon/$domain/sources/findomain.txt
 	github-subdomains -d $domain -t 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 -o Recon/$domain/sources/github.txt
         cat Recon/$domain/sources/*.txt | tee -a Recon/$domain/sources/tmp.txt
