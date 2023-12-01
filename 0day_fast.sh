@@ -10,6 +10,7 @@ domain_enum(){
         assetfinder -subs-only $domain | tee Recon/$domain/sources/domain.txt
         amass enum -passive -d $domain -o  Recon/$domain/sources/passive.txt
         findomain -t $domain -q | tee -a Recon/$domain/sources/findomain.txt
+        github-subdomains -d $domain -t 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 -o Recon/$domain/sources/github.txt
         cat Recon/$domain/sources/*.txt | tee -a Recon/$domain/sources/tmp.txt
         cat Recon/$domain/sources/tmp.txt | sort -u >> Recon/$domain/sources/all.txt
         rm Recon/$domain/sources/tmp.txt
@@ -17,13 +18,15 @@ domain_enum(){
         rm Recon/$domain/sources/passive.txt
         rm Recon/$domain/sources/findomain.txt
         rm Recon/$domain/sources/domain.txt
+        rm Recon/$domain/sources/github.txt
     done
 }
 
 portscan(){
     for domain in $(cat $host);
     do
-        naabu -list Recon/$domain/sources/all.txt -p 1-65535 -silent | tee -a Recon/$domain/ports.txt
+		rustscan -a Recon/$domain/sources/all.txt -r 1-65535 --ulimit 10000|tee -a Recon/$domain/rust.txt
+  		cat Recon/$domain/rust.txt|grep Open|sed 's/Open //'|tee -a Recon/$domain/ports.txt
     done
 }
 
@@ -52,8 +55,17 @@ sorting1(){
     cat Recon/$domain/aliv.txt | nuclei -t nuclei_templates/ --silent -o Recon/$domain/0day.txt
 }
 
+nuclei_fast{
+    cat Recon/$domain/aliv.txt | nuclei -t ~/nuclei-templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei1.txt
+    cat Recon/$domain/aliv.txt | nuclei -t nuclei_templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei2.txt
+    cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
+	rm Recon/$domain/nuclei1.txt
+	rm Recon/$domain/nuclei2.txt
+}
+
 domain_enum
-#portscan
+portscan
 alive1
 sorting1
-0day
+#0day
+nuclei_fast
