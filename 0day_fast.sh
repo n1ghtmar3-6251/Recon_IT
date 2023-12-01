@@ -25,8 +25,8 @@ domain_enum(){
 portscan(){
     for domain in $(cat $host);
     do
-		rustscan -a Recon/$domain/sources/all.txt -r 1-65535 --ulimit 10000|tee -a Recon/$domain/rust.txt
-  		cat Recon/$domain/rust.txt|grep Open|sed 's/Open //'|tee -a Recon/$domain/ports.txt
+        rustscan -a Recon/$domain/sources/all.txt -r 1-65535 --ulimit 10000|tee -a Recon/$domain/rust.txt
+        cat Recon/$domain/rust.txt|grep Open|sed 's/Open //'|tee -a Recon/$domain/ports.txt
     done
 }
 
@@ -63,6 +63,7 @@ nuclei_fast(){
         cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
         rm Recon/$domain/nuclei1.txt
         rm Recon/$domain/nuclei2.txt
+    done
 }
 
 domain_enum
