@@ -56,11 +56,13 @@ sorting1(){
 }
 
 nuclei_fast(){
-    cat Recon/$domain/aliv.txt | nuclei -t ~/nuclei-templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei1.txt
-    cat Recon/$domain/aliv.txt | nuclei -t nuclei_templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei2.txt
-    cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
-	rm Recon/$domain/nuclei1.txt
-	rm Recon/$domain/nuclei2.txt
+    for domain in $(cat $host);
+    do
+        cat Recon/$domain/aliv.txt | nuclei -t ~/nuclei-templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei1.txt
+        cat Recon/$domain/aliv.txt | nuclei -t nuclei_templates/ -rl 100 --silent | tee -a Recon/$domain/nuclei2.txt
+        cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
+        rm Recon/$domain/nuclei1.txt
+        rm Recon/$domain/nuclei2.txt
 }
 
 domain_enum
