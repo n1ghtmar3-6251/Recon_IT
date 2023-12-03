@@ -24,6 +24,7 @@ domain_enum(){
         rm Recon/$domain/sources/findomain.txt
         rm Recon/$domain/sources/domain.txt
 	rm Recon/$domain/sources/github.txt
+ 	notify -data Recon/$domain/sources/all.txt -bulk -provider telegram
     done
 }
 
@@ -57,6 +58,7 @@ record(){
 	do
 		for i in $(cat Recon/$domain/final.txt);do dig $i +noquestion +noauthority +noadditional +nostats | grep -wE "CNAME|A|AAAA" | tee -a Recon/$domain/records.txt;done
 		cat Recon/$domain/records.txt | awk '{print $1}' | sed 's/\.$//'|sort -u| tee -a Recon/$domain/record_sub.txt
+  		notify -data Recon/$domain/records.txt -bulk -provider telegram
 	done
 }
 
@@ -65,6 +67,7 @@ portscan(){
 	do
 		rustscan -a Recon/$domain/record_sub.txt -r 1-65535 --ulimit 10000|tee -a Recon/$domain/rust.txt
   		cat Recon/$domain/rust.txt|grep Open|sed 's/Open //'|tee -a Recon/$domain/ports.txt
+    		notify -data Recon/$domain/rust.txt -bulk -provider telegram
 	done
 }
 
@@ -86,6 +89,7 @@ sorting1(){
         rm -rf Recon/$domain/aliv2.txt
         rm -rf Recon/$domain/aliv3.txt
         rm -rf Recon/$domain/aliv4.txt
+	notify -data Recon/$domain/aliv.txt -bulk -provider telegram
     done
 }
 
@@ -106,6 +110,7 @@ nuclei_all(){
 		cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
 		rm Recon/$domain/nuclei1.txt
 		rm Recon/$domain/nuclei2.txt
+  		notify -data Recon/$domain/nuclei.txt -bulk -provider telegram
 	done
 }
 
@@ -117,6 +122,7 @@ urls(){
         cat Recon/$domain/urls*.txt | sort -u | tee -a Recon/$domain/urls.txt
         rm -rf Recon/$domain/urls1.txt
         rm -rf Recon/$domain/urls2.txt
+	notify -data Recon/$domain/urls.txt -bulk -provider telegram
     done
 }
 
