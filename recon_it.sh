@@ -61,7 +61,7 @@ record(){
     		cat Recon/$domain/final.txt|dnsprobe -c 10 -o Recon/$domain/records/probe_cname.txt -t 25 -r CNAME
       		cat Recon/$domain/final.txt|dnsprobe -c 10 -o Recon/$domain/records/probe_aaaa.txt -t 25 -r AAAA
 		cat Recon/$domain/records/*.txt|awk '{print $1}'|sort -u|tee -a Recon/$domain/record_sub.txt
-  		notify -data Recon/$domain/records.txt -bulk -provider telegram,discord
+  		notify -data Recon/$domain/record_sub.txt -bulk -provider telegram,discord
 	done
 }
 
