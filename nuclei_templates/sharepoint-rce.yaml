@@ -1,0 +1,38 @@
+id: CVE-2023-24955
+
+info:
+  name: share-point-rce
+  author: n1ghtmar3
+  severity: critical
+  description: SharePoint pre-auth RCE chaining CVE-2023-29357 and CVE-2023-24955
+  reference:
+    - https://gist.github.com/testanull/dac6029d306147e6cc8dce9424d09868
+requests:
+  - raw:
+      - |+
+        GET /_api/web HTTP/2
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: en-US,en;q=0.5
+        Accept-Encoding: gzip, deflate
+        Upgrade-Insecure-Requests: 1
+        Sec-Fetch-Dest: document
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-Site: cross-site
+        Pragma: no-cache
+        Cache-Control: no-cache
+        Te: trailers
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - Web/CurrentUser
+          - application/atom+xml
+          - schemas.microsoft.com/
+        condition: and
+      - type: status
+        status:
+          - 200
