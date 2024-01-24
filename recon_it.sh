@@ -61,7 +61,7 @@ record(){
     		cat Recon/$domain/final.txt|dnsprobe -c 10 -o Recon/$domain/records/probe_cname.txt -t 25 -r CNAME
       		cat Recon/$domain/final.txt|dnsprobe -c 10 -o Recon/$domain/records/probe_aaaa.txt -t 25 -r AAAA
 		cat Recon/$domain/records/*.txt|awk '{print $1}'|sort -u|tee -a Recon/$domain/record_sub.txt
-  		notify -data Recon/$domain/record_sub.txt -bulk -provider telegram,discord
+  		notify -data Recon/$domain/record_sub.txt -bulk -provider discord
 	done
 }
 
@@ -70,7 +70,7 @@ portscan(){
 	do
 		rustscan -a Recon/$domain/record_sub.txt -r 1-65535 --ulimit 10000|tee -a Recon/$domain/rust.txt
   		cat Recon/$domain/rust.txt|grep Open|sed 's/Open //'|tee -a Recon/$domain/ports.txt
-    		notify -data Recon/$domain/rust.txt -bulk -provider telegram,discord
+    		notify -data Recon/$domain/rust.txt -bulk -provider discord
 	done
 }
 
@@ -92,7 +92,7 @@ sorting1(){
         rm -rf Recon/$domain/aliv2.txt
         rm -rf Recon/$domain/aliv3.txt
         rm -rf Recon/$domain/aliv4.txt
-	notify -data Recon/$domain/aliv.txt -bulk -provider telegram,discord
+	notify -data Recon/$domain/aliv.txt -bulk -provider discord
     done
 }
 
@@ -115,7 +115,7 @@ nuclei_all(){
 		cat Recon/$domain/nuclei*.txt | sort -u | tee -a Recon/$domain/nuclei.txt
 		rm Recon/$domain/nuclei1.txt
 		rm Recon/$domain/nuclei2.txt
-  		notify -data Recon/$domain/nuclei.txt -bulk -provider telegram,discord
+  		notify -data Recon/$domain/nuclei.txt -bulk -provider discord
 	done
 }
 
@@ -127,7 +127,7 @@ urls(){
         cat Recon/$domain/urls*.txt | sort -u | tee -a Recon/$domain/urls.txt
         rm -rf Recon/$domain/urls1.txt
         rm -rf Recon/$domain/urls2.txt
-	notify -data Recon/$domain/urls.txt -bulk -provider telegram,discord
+	notify -data Recon/$domain/urls.txt -bulk -provider discord
     done
 }
 
